@@ -37,6 +37,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.kernel.AbstractGraphDatabase;
+import org.neo4j.kernel.logging.DevNullLoggingService;
 import org.neo4j.server.database.Database;
 import org.neo4j.server.database.WrappedDatabase;
 import org.neo4j.server.rest.repr.OutputFormat;
@@ -89,7 +90,7 @@ public class GremlinConsoleServiceTest implements ConsoleSessionFactory
     public void advertisesAvailableConsoleEngines() throws URISyntaxException, UnsupportedEncodingException
     {
         
-        ConsoleService consoleServiceWithShellAndGremlin = new ConsoleService( new GremlinAndShellConsoleSessionFactory(), null, new OutputFormat( new JsonFormat(), uri, null ) );
+        ConsoleService consoleServiceWithShellAndGremlin = new ConsoleService( new GremlinAndShellConsoleSessionFactory(), null, DevNullLoggingService.DEV_NULL, new OutputFormat( new JsonFormat(), uri, null ) );
         
         String response = decode( consoleServiceWithShellAndGremlin.getServiceDefinition());
 
@@ -120,7 +121,7 @@ public class GremlinConsoleServiceTest implements ConsoleSessionFactory
     {
         GraphDatabaseService db = new TestGraphDatabaseFactory().newImpermanentDatabase();
         this.database = new WrappedDatabase((AbstractGraphDatabase) db);
-        this.consoleService = new ConsoleService( this, database, new OutputFormat( new JsonFormat(), uri, null ) );
+        this.consoleService = new ConsoleService( this, database, DevNullLoggingService.DEV_NULL, new OutputFormat( new JsonFormat(), uri, null ) );
     }
 
     @After
